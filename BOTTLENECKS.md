@@ -10,7 +10,7 @@
 
 | # | Blocker | Where | Why it matters |
 |---|---------|-------|----------------|
-| 1 | Naive "spill everything" register allocator | [Source/Asm.cpp](Source/Asm.cpp) | Every program runs 10–100× slower than necessary; bloated `.text`. |
+| 1 | ~~Naive "spill everything" register allocator~~ ✅ Completed ([PR #63](https://github.com/rux-lang/Rux/pull/63)) | [Source/Asm.cpp](Source/Asm.cpp) | Every program runs 10–100× slower than necessary; bloated `.text`. |
 | 2 | Zero IR optimization passes | [Source/Lir.cpp](Source/Lir.cpp), [Source/Asm.cpp](Source/Asm.cpp) | No DCE, no constant folding, no inlining — no pass manager exists. |
 | 3 | No standard library | (missing) | Users must hand-write `extern` to OS APIs to do anything. |
 | 4 | No memory-safety story | [Include/Rux/Type.h](Include/Rux/Type.h), entire backend | Raw pointers, no bounds checks, no lifetimes — UB on day one. |
@@ -41,7 +41,7 @@ Fix these and Rux goes from "demo" to "usable."
 
 ## CRITICAL — Must fix before anything else
 
-### C1. Naive register allocation (every vreg → unique stack slot)
+### ✅ C1. Naive register allocation (every vreg → unique stack slot) — (Completed · [PR #63](https://github.com/rux-lang/Rux/pull/63))
 **Severity:** Critical · **File:** [Source/Asm.cpp](Source/Asm.cpp) (≈L205–L480)
 
 Every LIR virtual register is assigned a unique `[rbp - off]` slot. Every op does
